@@ -28,7 +28,7 @@ export default function Page({ params }: Props){
         setLoading(false)
       }
     })()
-  }, [])
+  }, [params.id])
 
   return (
     <div className="p-4">
@@ -53,7 +53,6 @@ export default function Page({ params }: Props){
                     alt={dataDetail.title}
                     width={180}
                     height={37}
-                    priority
                   />
                 )}
               </div>

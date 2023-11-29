@@ -23,7 +23,9 @@ export default function RootLayout({
           <Link href="/" className="outline-none focus_ring hover_text-sky-600 font-medium">List Products</Link>
         </nav>
 
-        {children}
+        <main className="min-h-screen">
+          {children}
+        </main>
       </body>
     </html>
   )
