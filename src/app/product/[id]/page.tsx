@@ -33,7 +33,7 @@ export default function Page({ params }: Props){
   return (
     <div className="p-4">
       <div className="flex flex-row flex-wrap gap-6">
-        <div className="lg_w-[calc(70%-1rem)] w-full">
+        <div className="lg_w-col-7 w-full">
           {loading ? 
             <SkeletonCard />
             :
@@ -67,7 +67,7 @@ export default function Page({ params }: Props){
           )}
         </div>
 
-        <div className="lg_w-[calc(30%-1rem)] w-full">
+        <div className="lg_w-col-3 w-full">
           <div className="w-full border border-gray-300 shadow rounded p-4">
             Share
           </div>
