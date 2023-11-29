@@ -1,34 +1,49 @@
 'use client'
 
-import { useState, useEffect } from "react"
-import Image from 'next/image'
-import { fetchApi } from "@/utils/fetchApi"
-import { SkeletonCard } from "@/components/SkeletonCard"
+import { useState, useEffect } from "react";
+import Image from 'next/image';
+import { fetchApi } from "@/utils/fetchApi";
+import { SkeletonCard } from "@/components/SkeletonCard";
 
 interface Props { 
   params: { id: string } 
 }
 
 export default function Page({ params }: Props){
-  const [loading, setLoading] = useState<boolean>(true)
-  const [errorDetail, setErrorDetail] = useState<any>()
-  const [dataDetail, setDataDetail] = useState<any>()
+  const [loading, setLoading] = useState<boolean>(true);
+  const [errorDetail, setErrorDetail] = useState<any>();
+  const [dataDetail, setDataDetail] = useState<any>();
 
   useEffect(() => {
+    let abortController: any;
+
     (async () => {
+      abortController = new AbortController();
+
       try {
-        const request = await fetchApi('https://dummyjson.com/products/' + params.id)
+        const request = await fetchApi('https://dummyjson.com/products/' + params.id, {
+          signal: abortController.signal,
+        });
 
         if(request){
-          setDataDetail(request)
+          setDataDetail(request);
         }
       } catch(e: any){
-        setErrorDetail(e.message)
+        if(e.name !== 'AbortError'){
+          setErrorDetail(e.message);
+        }
       } finally {
-        setLoading(false)
+        abortController = null;
+        setLoading(false);
       }
     })()
-  }, [params.id])
+
+    return () => {
+      if(abortController){
+        abortController.abort();
+      }
+    }
+  }, [params.id]);
 
   return (
     <div className="p-4">
@@ -51,8 +66,9 @@ export default function Page({ params }: Props){
                     className="w-full aspect-video object-cover rounded-b"
                     src={dataDetail.thumbnail}
                     alt={dataDetail.title}
-                    width={180}
-                    height={37}
+                    width={1027}
+                    height={578}
+                    priority
                   />
                 )}
               </div>
@@ -60,7 +76,7 @@ export default function Page({ params }: Props){
           }
 
           {!!errorDetail && (
-            <div role="alert" className="border ronded p-4 shadow">
+            <div role="alert" className="border border-red-600 ronded p-4 shadow">
               {errorDetail}
             </div>
           )}
@@ -73,5 +89,5 @@ export default function Page({ params }: Props){
         </div>
       </div>
     </div>
-  )
+  );
 }
