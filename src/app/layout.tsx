@@ -20,7 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <nav className="p-4 border-b shadow sticky top-0 z-10 bg-gray-100">
-          <Link href="/" className="outline-none focus_ring hover_text-sky-600 font-medium">List Products</Link>
+          <Link href="/" className="outline-none focus_ring hover_text-sky-600 font-medium">
+            List Products
+          </Link>
         </nav>
 
         <main className="min-h-screen">
